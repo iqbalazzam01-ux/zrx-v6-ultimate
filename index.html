@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZRX 3D HEADLOCK | VIP</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: 'Courier New', monospace; overflow: hidden; margin: 0; }
+        
+        /* RADAR 3D CONTAINER */
+        #radar-container {
+            position: relative; width: 300px; height: 300px; margin: 50px auto;
+            border: 2px solid #0f0; border-radius: 50%; box-shadow: 0 0 20px #0f0;
+            display: flex; justify-content: center; align-items: center;
+            perspective: 1000px;
+        }
+
+        .scanning-line {
+            position: absolute; width: 100%; height: 2px; background: rgba(0, 255, 0, 0.5);
+            animation: scan 2s linear infinite;
+        }
+
+        @keyframes scan { from { top: 0; } to { top: 100%; } }
+
+        /* TARGET 3D */
+        #head-target {
+            width: 80px; height: 80px; border: 3px solid #f00; border-radius: 10px;
+            transform-style: preserve-3d; transition: 0.1s; display: none;
+            position: absolute; box-shadow: 0 0 15px #f00;
+        }
+
+        .lock-text { color: #f00; font-weight: bold; position: absolute; top: -25px; left: 0; width: 100%; text-align: center; }
+
+        /* BUTTONS */
+        .btn {
+            background: #0f0; color: #000; border: none; padding: 15px 30px;
+            font-weight: bold; cursor: pointer; display: block; margin: 20px auto;
+            border-radius: 50px; text-transform: uppercase;
+        }
+
+        /* SCREEN ERROR BERKALI-KALI */
+        #error-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.9); z-index: 10000; display: none;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center; margin-top: 20px;">ZRX 3D HEADLOCK v4.0</h2>
+
+    <div id="radar-container">
+        <div class="scanning-line"></div>
+        <div id="head-target">
+            <div class="lock-text">LOCKED 100%</div>
+        </div>
+        <p id="status">SCANNING ENEMY...</p>
+    </div>
+
+    <button class="btn" onclick="startLock()">ACTIVATE HEADLOCK 100%</button>
+
+    <div id="error-overlay">
+        <h1 style="color: yellow; font-size: 3rem;">SYSTEM ERROR!</h1>
+        <p style="font-size: 1.5rem; color: white;">VIRUS ZRX-HEADLOCK TERDETEKSI!</p>
+    </div>
+
+    <script>
+        function startLock() {
+            const target = document.getElementById('head-target');
+            const status = document.getElementById('status');
+            const btn = document.querySelector('.btn');
+
+            btn.disabled = true;
+            btn.innerHTML = "INJECTING...";
+            status.innerHTML = "TRACKING HEAD BONES...";
+
+            // Animasi Gerakan 3D Target
+            setTimeout(() => {
+                target.style.display = 'block';
+                let angle = 0;
+                const moveTarget = setInterval(() => {
+                    angle += 0.1;
+                    target.style.transform = `rotateY(${angle * 10}deg) translateZ(50px)`;
+                    target.style.left = (Math.sin(angle) * 50 + 110) + "px";
+                    target.style.top = (Math.cos(angle) * 50 + 110) + "px";
+                }, 50);
+
+                // --- TRIGGER ERROR BERKALI-KALI ---
+                setTimeout(() => {
+                    clearInterval(moveTarget);
+                    triggerChaos();
+                }, 4000);
+            }, 1000);
+        }
+
+        function triggerChaos() {
+            document.getElementById('error-overlay').style.display = 'flex';
+            
+            // Suara Robot
+            const speak = (txt) => {
+                const s = new SpeechSynthesisUtterance(txt);
+                s.lang = 'id-ID'; s.pitch = 0.1;
+                window.speechSynthesis.speak(s);
+            }
+
+            speak("Gagal mengunci kepala. Keamanan game terdeteksi. Sistem menghancurkan memori internal sekarang juga.");
+
+            // LOOP ERROR BERKALI-KALI (ALERT)
+            let i = 0;
+            const messages = [
+                "ERROR: ZRX-3D FAILED!",
+                "SYSTEM CORRUPTED!",
+                "MENGHAPUS DATA GAME...",
+                "HP ANDA AKAN DIMATIKAN!",
+                "KOK MASIH DIKLIK DEK? 🤣",
+                "BAYAR KOPI DULU KE ZRX!"
+            ];
+
+            function spam() {
+                alert(messages[i % messages.length]);
+                i++;
+                if (navigator.vibrate) navigator.vibrate(500);
+                setTimeout(spam, 50); // Kecepatan tinggi
+            }
+
+            setTimeout(spam, 500);
+        }
+    </script>
+</body>
+</html>
